@@ -1,0 +1,22 @@
+{
+  "name": "foss-food",
+  "version": "1.0.0",
+  "description": "Foss Food Ordering System",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "develop": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "author": "Foss Engineered",
+  "license": "GNU GPL V3",
+  "dependencies": {
+    "cors": "2.8.5",
+    "express": "4.17.1",
+    "express-openapi-validator": "^4.13.6",
+    "nodemon": "2.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.11.0"
+  }
+}
