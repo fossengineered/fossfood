@@ -1,3 +1,3 @@
-## Foss Food
-Food Ordering System
+## Foss Food API
+Food Ordering System Backend API
 
