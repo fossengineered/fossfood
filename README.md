@@ -1,2 +1,2 @@
-# fossfood
-Food Truck Ordering System
+# Foss Food
+Food Ordering System
