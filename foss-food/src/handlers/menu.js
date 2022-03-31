@@ -1,7 +1,7 @@
 'use strict'
 
 function item({ params }, res) {
-    res.status(200).json({ id: params.id, name: "get item" })
+    res.status(200).json({ id: params.id, name: "get item", description: "this is some text to describe the item" })
 }
 
 function items(_, res) {

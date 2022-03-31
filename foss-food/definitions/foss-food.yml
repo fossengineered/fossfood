@@ -75,7 +75,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/menuItemsResponse"
+                  $ref: "#/components/schemas/menuItemDetailResponse"
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -178,3 +178,16 @@ components:
       required:
         - "id"
         - "name"
+    menuItemDetailResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - "id"
+        - "name"
+        - "description"
