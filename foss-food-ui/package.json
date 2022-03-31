@@ -1,0 +1,35 @@
+{
+  "name": "foss-food-ui",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@material-ui/icons": "^4.11.2",
+    "@mui/icons-material": "^5.5.1",
+    "@mui/material": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router-dom": "^6.2.2",
+    "react-scripts": "^5.0.0",
+    "recharts": "^2.1.9"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
