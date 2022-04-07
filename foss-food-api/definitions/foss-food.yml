@@ -82,6 +82,27 @@ paths:
           $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
+  /site-config:
+    get:
+      description: "Get site config"
+      operationId: getSiteConfig
+      x-eov-operation-id: currentConfig
+      x-eov-operation-handler: site-config
+      parameters:
+        - $ref: "#/components/parameters/x-correlation-id"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/siteConfigResponse"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
 components:
   responses:
     "401":
@@ -191,3 +212,10 @@ components:
         - "id"
         - "name"
         - "description"
+    siteConfigResponse:
+      type: object
+      properties:
+        isDbConfigured:
+          type: boolean
+      required:
+        - "isDbConfigured"

@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { RouteObject } from "react-router-dom";
-import { Outlet, useRoutes, useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { RouteObject, Outlet, useRoutes, useParams, Navigate } from "react-router-dom";
+import axios from 'axios';
 
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,6 +17,10 @@ import Container from '@mui/material/Container';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import CircularProgress from '@mui/material/CircularProgress';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack'
+
 import { mainListItems, secondaryListItems } from './listItems';
 
 const drawerWidth = 240;
@@ -65,6 +69,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+const Loading = () => <Stack alignItems="center">
+  <CircularProgress />
+</Stack>
+
+
 const mdTheme = createTheme();
 
 function DashboardContent() {
@@ -73,8 +82,28 @@ function DashboardContent() {
     setOpen(!open);
   };
 
+  const [config, setConfig] = React.useState({ isLoaded: false })
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/v1/site-config', {
+      headers: {
+        'x-correlation-id': '497e6b0a-d2d1-4aa7-a73b-99c6392847bf'
+      }
+    }).then(res => {
+
+      const cfg = {
+        isLoaded: true,
+        ...res.data
+      }
+      console.log(cfg)
+
+      setConfig(cfg)
+    })
+  }, []);
+
   return (
     <ThemeProvider theme={mdTheme}>
+      {config.isLoaded && config.isDbConfigured===false && <Navigate to="/settings" />}
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
@@ -145,7 +174,7 @@ function DashboardContent() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Outlet />
+            {(config.isLoaded && <Outlet />) ?? <Loading />}
           </Container>
         </Box>
       </Box>

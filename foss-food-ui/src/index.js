@@ -11,6 +11,7 @@ import App from './App';
 import theme from './theme';
 import Inventory from './routes/inventory'
 import Dashboard from './routes/dashboard'
+import Settings from './routes/settings'
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
@@ -20,6 +21,7 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="inventory" element={<Inventory />} />
+          <Route path="settings" element={<Settings />} />
           <Route index element={<Dashboard />} />
         </Route>
       </Routes>

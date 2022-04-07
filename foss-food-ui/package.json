@@ -15,6 +15,7 @@
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "latest",
     "@mui/x-data-grid": "^5.8.0",
+    "axios": "^0.26.1",
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "^6.2.2",
