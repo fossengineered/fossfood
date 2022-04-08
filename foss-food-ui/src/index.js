@@ -21,7 +21,9 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="inventory" element={<Inventory />} />
-          <Route path="settings" element={<Settings />} />
+          <Route path="settings" element={<Settings />}>
+            <Route path="database" element={<h3>database config</h3>} />
+          </Route>
           <Route index element={<Dashboard />} />
         </Route>
       </Routes>

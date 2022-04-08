@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RouteObject, Outlet, useRoutes, useParams, Navigate } from "react-router-dom";
+import { RouteObject, Outlet, useRoutes, useParams, Navigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
@@ -95,15 +95,19 @@ function DashboardContent() {
         isLoaded: true,
         ...res.data
       }
-      console.log(cfg)
 
       setConfig(cfg)
     })
   }, []);
 
+  const { pathname } = useLocation()
+
   return (
     <ThemeProvider theme={mdTheme}>
-      {config.isLoaded && config.isDbConfigured===false && <Navigate to="/settings" />}
+      {config.isLoaded 
+        && config.isDbConfigured===false 
+        && pathname != '/settings/database'
+        && <Navigate to="/settings/database" />}
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
