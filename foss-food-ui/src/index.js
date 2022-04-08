@@ -9,9 +9,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import App from './App';
 import theme from './theme';
+
 import Inventory from './routes/inventory'
 import Dashboard from './routes/dashboard'
 import Settings from './routes/settings'
+import { Database } from './settings'
+
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
@@ -22,7 +25,7 @@ ReactDOM.render(
         <Route path="/" element={<App />}>
           <Route path="inventory" element={<Inventory />} />
           <Route path="settings" element={<Settings />}>
-            <Route path="database" element={<h3>database config</h3>} />
+            <Route path="database" element={<Database />} />
           </Route>
           <Route index element={<Dashboard />} />
         </Route>

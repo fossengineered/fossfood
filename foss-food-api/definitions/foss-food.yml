@@ -103,6 +103,27 @@ paths:
           $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
+  /db-settings:
+    get:
+      description: "Get db settings"
+      operationId: getDbSettings
+      x-eov-operation-id: currentSettings
+      x-eov-operation-handler: db-settings
+      parameters:
+        - $ref: "#/components/parameters/x-correlation-id"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/dbSettingsResponse"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
 components:
   responses:
     "401":
@@ -219,3 +240,8 @@ components:
           type: boolean
       required:
         - "isDbConfigured"
+    dbSettingsResponse:
+      type: object
+      properties:
+        doesDbExist: 
+          type: boolean
