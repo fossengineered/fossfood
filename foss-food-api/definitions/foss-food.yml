@@ -68,14 +68,14 @@ paths:
           schema:
             type: integer
             minimum: 1
-          description: The menu item ID            
+          description: The menu item ID
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/menuItemDetailResponse"
+                $ref: "#/components/schemas/menuItemDetailResponse"
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -96,7 +96,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/siteConfigResponse"
+                $ref: "#/components/schemas/siteConfigResponse"
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -117,7 +117,28 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/dbSettingsResponse"
+                $ref: "#/components/schemas/dbSettingsResponse"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+  /db-settings/create-db:
+    post:
+      description: "Create new DB"
+      operationId: createDB
+      x-eov-operation-id: createDB
+      x-eov-operation-handler: db-settings
+      parameters:
+        - $ref: "#/components/parameters/x-correlation-id"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/healthCheckResponse"
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -243,5 +264,7 @@ components:
     dbSettingsResponse:
       type: object
       properties:
-        doesDbExist: 
+        doesDbExist:
+          type: boolean
+        isSetupComplete:
           type: boolean
