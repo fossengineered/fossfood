@@ -145,6 +145,27 @@ paths:
           $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
+  /db-settings/create-tables:
+    post:
+      description: "Create DB Tables"
+      operationId: createTables
+      x-eov-operation-id: createTables
+      x-eov-operation-handler: db-settings
+      parameters:
+        - $ref: "#/components/parameters/x-correlation-id"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/healthCheckResponse"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
 components:
   responses:
     "401":
@@ -268,3 +289,9 @@ components:
           type: boolean
         isSetupComplete:
           type: boolean
+        hasTables:
+          type: boolean
+      required:
+        - "doesDbExist"
+        - "isSetupComplete"
+        - "hasTables"

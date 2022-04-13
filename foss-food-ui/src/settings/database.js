@@ -58,6 +58,39 @@ const DbFileMissing = ({ loadSettings }) => {
     </React.Fragment>
 }
 
+const TablesMissing = ({ loadSettings }) => {
+
+    const [loading, setLoading] = React.useState(false);
+
+    const createTables = (setLoading, loadSettings) => {
+        setLoading(true)
+        axios.post('http://localhost:8080/v1/db-settings/create-tables', {}, {
+            headers: {
+                'x-correlation-id': '497e6b0a-d2d1-4aa7-a73b-99c6392847bf'
+            }
+        })
+            .then(function (response) {
+                setLoading(false)
+                loadSettings()
+            })
+            .catch(function (error) {
+                alert(error)
+            });
+    }
+
+    return <React.Fragment>
+        <Stack alignItems="center">
+            <h3>There are tables missing from the database</h3>
+        </Stack>
+        <Stack spacing={2} direction="row">
+            <LoadingButton
+                loading={loading}
+                variant="contained"
+                onClick={() => { createTables(setLoading, loadSettings) }}>Add Now</LoadingButton>
+        </Stack>
+    </React.Fragment>
+}
+
 export function Database() {
 
     const [dbSettings, setDbSettings] = React.useState({ isLoaded: false })
@@ -97,6 +130,7 @@ export function Database() {
             <Typography color="text.primary">Database</Typography>
         </Breadcrumbs>
         {!dbSettings.doesDbExist && <DbFileMissing loadSettings={loadSettings} />}
+        {dbSettings.doesDbExist && !dbSettings.hasTables && <TablesMissing loadSettings={loadSettings} />}
         {dbSettings.isSetupComplete && <h3>DB is all setup and working</h3>}
     </Stack>
 }

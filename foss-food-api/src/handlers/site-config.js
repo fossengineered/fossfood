@@ -3,7 +3,9 @@
 const DBcheck = require('../site-config/db-check')
 
 function currentConfig(_, res) {
-    res.status(200).json({ isDbConfigured: DBcheck.dbStatus().isSetupComplete })
+    DBcheck.dbStatus((status) => {
+        res.status(200).json({ isDbConfigured: status.isSetupComplete })
+    })
 }
 
 module.exports = {
