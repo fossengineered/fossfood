@@ -7,19 +7,6 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-const Loading = () => <Stack alignItems="center">
-    <CircularProgress />
-</Stack>
-
-const getDbSettings = () => {
-    return axios.get('http://localhost:8080/v1/db-settings', {
-        headers: {
-            'x-correlation-id': '497e6b0a-d2d1-4aa7-a73b-99c6392847bf'
-        }
-    })
-}
-
-
 const Loader = () => <Stack alignItems="center">
     <CircularProgress />
 </Stack>
@@ -96,7 +83,6 @@ export function Database() {
     const [dbSettings, setDbSettings] = React.useState({ isLoaded: false })
 
     const loadSettings = () => {
-        console.log('load')
         setDbSettings({ isLoaded: false })
         axios.get('http://localhost:8080/v1/db-settings', {
             headers: {

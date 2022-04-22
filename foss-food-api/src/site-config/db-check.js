@@ -33,7 +33,7 @@ function dbStatus(callback) {
 
 async function hasTables() {
 
-    const db = await createDbConnection(dbFile)
+    const db = await createDbConnection()
     const row = await db.get(`select * from sqlite_master where type='table' and tbl_name='Inventory'`);
 
     return Promise.resolve(row)// != null
@@ -44,7 +44,7 @@ const createDB = () => {
 }
 
 async function createTables() {
-    const db = await createDbConnection(dbFile)
+    const db = await createDbConnection()
     db.run(`CREATE TABLE Inventory(
         inventoryId INTEGER NOT NULL PRIMARY KEY,
         name TEXT NOT NULL,
@@ -55,9 +55,9 @@ async function createTables() {
     })
 }
 
-function createDbConnection(filename) {
+function createDbConnection() {
     return open({
-        filename,
+        filename: dbFile,
         driver: sqlite3.Database
     });
 }
@@ -67,5 +67,6 @@ module.exports = {
     dbStatus,
     createDB,
     hasTables,
-    createTables
+    createTables,
+    createDbConnection
 }

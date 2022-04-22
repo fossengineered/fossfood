@@ -166,6 +166,122 @@ paths:
           $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
+  /inventory:
+    get:
+      description: "Get all inventory items"
+      operationId: getInventoryItems
+      x-eov-operation-id: items
+      x-eov-operation-handler: inventory
+      parameters:
+        - $ref: "#/components/parameters/x-correlation-id"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/inventoryItemsResponse"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+    post:
+      description: "Add new Inventory Item"
+      operationId: addInventoryItem
+      x-eov-operation-id: addItem
+      x-eov-operation-handler: inventory
+      parameters:
+        - $ref: "#/components/parameters/x-correlation-id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/inventoryItemsResponse"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/inventoryItemsResponse"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+  /inventory/{id}:
+    delete:
+      description: "Delete an Inventory Item"
+      operationId: deleteInventoryItem
+      x-eov-operation-id: deleteItem
+      x-eov-operation-handler: inventory
+      parameters:
+        - $ref: "#/components/parameters/x-correlation-id"
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The menu item ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/healthCheckResponse"
+                properties:
+                  message:
+                    type: string
+                    example: OK
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"  
+    put:
+      description: "Update an Inventory Item"
+      operationId: updateInventoryItem
+      x-eov-operation-id: updateItem
+      x-eov-operation-handler: inventory
+      parameters:
+        - $ref: "#/components/parameters/x-correlation-id"
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The menu item ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/inventoryItemsResponse"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/inventoryItemsResponse"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
 components:
   responses:
     "401":
@@ -275,6 +391,22 @@ components:
         - "id"
         - "name"
         - "description"
+    inventoryItemsResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: integer
+      required:
+        - "id"
+        - "name"
+        - "description"
+        - "quantity"
     siteConfigResponse:
       type: object
       properties:
