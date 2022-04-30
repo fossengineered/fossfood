@@ -3,9 +3,12 @@ const sqlite3 = require('sqlite3');
 const { open } = require('sqlite');
 const config = require('../config');
 const { dirname, resolve } = require('path');
+const { dbTables } = require('../db-setup/sqlite-tables')
 
 const appDir = dirname(require.main.filename);
 const dbFile = `${appDir}/${config.db}`
+
+
 
 
 const dbFileExists = () => {
@@ -34,9 +37,13 @@ function dbStatus(callback) {
 async function hasTables() {
 
     const db = await createDbConnection()
-    const row = await db.get(`select * from sqlite_master where type='table' and tbl_name='Inventory'`);
 
-    return Promise.resolve(row)// != null
+    const tables = await db.all(`
+            select name from sqlite_master
+                where type='table' and
+                tbl_name in (${(dbTables.map(m=>`'${m.name}'`).join(','))})`)
+
+    return Promise.resolve(tables.length !== dbTables.length ? null : dbTables.length)
 }
 
 const createDB = () => {
@@ -45,14 +52,15 @@ const createDB = () => {
 
 async function createTables() {
     const db = await createDbConnection()
-    db.run(`CREATE TABLE Inventory(
-        inventoryId INTEGER NOT NULL PRIMARY KEY,
-        name TEXT NOT NULL,
-        description TEXT NOT NULL,
-        quantity INTEGER NOT NULL
-     );`).then(res => {
-        Promise.resolve()
-    })
+
+    for (let i = 0; i < dbTables.length; i++) {
+        res = await db.get(`select name from sqlite_master where type='table' and tbl_name=?`, dbTables[i].name)
+
+        if (res) continue
+
+        await db.run(dbTables[i].createSQL)
+        console.log(`created ${dbTables[i].name}`)
+    }
 }
 
 function createDbConnection() {

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useParams, Outlet, useNavigate  } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { Button, CircularProgress, Stack, Box, Typography, IconButton } from '@mui/material';
@@ -19,11 +20,10 @@ const MODAL_STATE = {
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'name', headerName: 'Name', width: 150 },
-    { field: 'description', headerName: 'Description', flex: 1 },
+    { field: 'name', headerName: 'Name', flex: 1 },
     {
-        field: 'quantity',
-        headerName: 'Quantity',
+        field: 'ingredients',
+        headerName: 'Ingredients',
         type: 'number'
     }
 ];
@@ -57,7 +57,7 @@ const ItemModal = ({ loadInventory, handleClose, open, selectedRow, mode, change
     const addItem = (data) => {
         data.id = -1
 
-        return axios.post('http://localhost:8080/v1/inventory', data, {
+        return axios.post('http://localhost:8080/v1/recipes', data, {
             headers: {
                 'x-correlation-id': '497e6b0a-d2d1-4aa7-a73b-99c6392847bf'
             }
@@ -65,7 +65,7 @@ const ItemModal = ({ loadInventory, handleClose, open, selectedRow, mode, change
     }
 
     const updateItem = (data) => {
-        return axios.put(`http://localhost:8080/v1/inventory/${data.id}`, data, {
+        return axios.put(`http://localhost:8080/v1/recipes/${data.id}`, data, {
             headers: {
                 'x-correlation-id': '497e6b0a-d2d1-4aa7-a73b-99c6392847bf'
             }
@@ -73,12 +73,12 @@ const ItemModal = ({ loadInventory, handleClose, open, selectedRow, mode, change
     }
 
     const deleteItem = () => {
-        if (!confirm("Permanently delete this item?"))
+        if (!confirm("Permanently delete this recipe?"))
             return
 
         setLoading(true)
 
-        axios.delete(`http://localhost:8080/v1/inventory/${selectedRow.id}`, {
+        axios.delete(`http://localhost:8080/v1/recipes/${selectedRow.id}`, {
             headers: {
                 'x-correlation-id': '497e6b0a-d2d1-4aa7-a73b-99c6392847bf'
             }
@@ -125,7 +125,7 @@ const ItemModal = ({ loadInventory, handleClose, open, selectedRow, mode, change
             }
             <DialogContent>
                 {mode === MODAL_STATE.ADD && <DialogContentText>
-                    Complete the below to create a new Inventory Item
+                    Complete the below to create a new Recipe
                 </DialogContentText>}
                 <Stack sx={{ width: '100%' }}>
                     {(mode !== MODAL_STATE.VIEW && <TextFieldElement
@@ -191,6 +191,14 @@ const ItemModal = ({ loadInventory, handleClose, open, selectedRow, mode, change
 
 export default function Inventory() {
 
+    const { id } = useParams();
+
+    if (id) {
+        return <Paper style={{ width: '100%' }}>
+            <Outlet />
+        </Paper>
+    }
+
     const [loading, setLoading] = React.useState(true)
     const [items, setItems] = React.useState(null)
     const [modalState, setModalState] = React.useState({ mode: MODAL_STATE.VIEW, open: false, row: null })
@@ -200,7 +208,7 @@ export default function Inventory() {
         setModalState({ mode: MODAL_STATE.VIEW, open: false, row: null })
         setLoading(true)
 
-        axios.get('http://localhost:8080/v1/inventory', {
+        axios.get('http://localhost:8080/v1/recipes', {
             headers: {
                 'x-correlation-id': '497e6b0a-d2d1-4aa7-a73b-99c6392847bf'
             }
@@ -222,17 +230,20 @@ export default function Inventory() {
     }
 
     React.useEffect(() => { loadInventory() }, [])
+    const navigate = useNavigate();
 
     if (loading) {
         return <Loader />
     }
+
+    
 
     const { mode, open, row } = modalState
 
     return (
         <React.Fragment>
             <Stack spacing={2} direction="row" sx={{ p: 1 }}>
-                <Button variant="contained" onClick={() => { openItemModal(MODAL_STATE.ADD) }}>Add Item</Button>
+                <Button variant="contained" onClick={() => { openItemModal(MODAL_STATE.ADD) }}>New Recipe</Button>
             </Stack>
             <Paper style={{ height: 700, width: '100%' }} sx={{ p: 2 }}>
                 <DataGrid
@@ -240,7 +251,7 @@ export default function Inventory() {
                     columns={columns}
                     pageSize={25}
                     rowsPerPageOptions={[25]}
-                    onRowClick={({ row }) => { openItemModal(MODAL_STATE.VIEW, row) }}
+                    onRowClick={({ row }) => { navigate(`${row.id}`) }}
                 />
             </Paper>
             <ItemModal

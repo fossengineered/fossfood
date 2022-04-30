@@ -13,6 +13,8 @@ import theme from './theme';
 import Inventory from './routes/inventory'
 import Dashboard from './routes/dashboard'
 import Settings from './routes/settings'
+import Recipes from './routes/recipes'
+import RecipeDetail from './routes/recipedetail'
 import { Database } from './settings'
 
 
@@ -24,6 +26,9 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="inventory" element={<Inventory />} />
+          <Route path="recipes" element={<Recipes />}>
+            <Route path=":id" element={<RecipeDetail />} />
+          </Route>
           <Route path="settings" element={<Settings />}>
             <Route path="database" element={<Database />} />
           </Route>

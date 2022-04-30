@@ -282,6 +282,29 @@ paths:
           $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
+  /recipes:
+    get:
+      description: "Get all recipes"
+      operationId: getRecipes
+      x-eov-operation-id: getRecipes
+      x-eov-operation-handler: recipes
+      parameters:
+        - $ref: "#/components/parameters/x-correlation-id"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/recipesResponse"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
 components:
   responses:
     "401":
@@ -407,6 +430,16 @@ components:
         - "name"
         - "description"
         - "quantity"
+    recipesResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - "id"
+        - "name"
     siteConfigResponse:
       type: object
       properties:

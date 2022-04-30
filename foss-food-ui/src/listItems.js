@@ -12,6 +12,7 @@ import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import SettingsIcon from '@mui/icons-material/Settings';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 export const mainListItems = (
   <React.Fragment>
@@ -26,6 +27,12 @@ export const mainListItems = (
         <InventoryIcon />
       </ListItemIcon>
       <ListItemText primary="Inventory" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/recipes">
+      <ListItemIcon>
+        <MenuBookIcon />
+      </ListItemIcon>
+      <ListItemText primary="Recipes" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
